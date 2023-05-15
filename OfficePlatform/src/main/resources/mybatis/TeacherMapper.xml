@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.Mapper.TeacherMapper">
+
+    <select id="tfindAll" resultType="com.jk.Pojo.TeacherList">
+        select * from teacher_list
+    </select>
+
+    <delete id="tdelete">
+        delete from  teacher_list where teacher_number = #{num}
+    </delete>
+
+    <update id="tupdate"></update>
+
+    <insert id="tfindAdd"></insert>
+
+    <select id="tmohu" resultType="com.jk.Pojo.TeacherList"></select>
+
+</mapper>
