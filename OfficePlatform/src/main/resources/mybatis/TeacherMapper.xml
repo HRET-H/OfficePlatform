@@ -11,11 +11,28 @@
     <delete id="tdelete">
         delete from  teacher_list where teacher_number = #{num}
     </delete>
-
-    <update id="tupdate"></update>
-
-    <insert id="tfindAdd"></insert>
-
-    <select id="tmohu" resultType="com.jk.Pojo.TeacherList"></select>
-
+<!--    修改教师信息-->
+    <update id="tupdate">
+        update teacher_list set Teacher_name = #{teacher_name},
+        Teacher_gender = #{teacher_gender},
+        Teacher_age = #{teacher_age},
+        Teacher_phone = #{teacher_phone},
+        Teacher_major = #{teacher_major}
+        where Teacher_number = #{teacher_number}
+    </update>
+<!--    模糊查询教师信息 -->
+    <select id="tmohu" resultType="teacherList">
+        select * from teacher_list
+        <where>
+            <if test="tnumber != null">
+                and teacher_number = #{tnumber}
+            </if>
+            <if test="tname != null and tname != '' ">
+                and teacher_name like concat ('%', #{tname},'%')
+            </if>
+            <if test="tmajor != null and tmajor != '' ">
+                and teacher_major like concat ('%' ,#{tmajor},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

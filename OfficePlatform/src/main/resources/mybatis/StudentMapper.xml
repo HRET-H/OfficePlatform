@@ -2,9 +2,24 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jk.Mapper.StudentMapper">
-
-    <select id="findAll" resultType="com.jk.Pojo.StudentList">
+<mapper namespace="com.jk.mapper.StudentMapper">
+<!--    查询所有学生信息-->
+    <select id="findAll" resultType="studentList">
         select * from student_list
     </select>
+<!--    添加学生信息-->
+    <insert id="sinsert">
+        insert into student_list values(#{Studet_number},#{Student_name},#{Student_age},#{Student_grade},#{Student_gender},#{HomeAddress},#{Course_Elective},#{Class_name},#{Enrollment_time},#{Student_IdNumber},#{Student_phone})
+    </insert>
+<!--    删除学生信息-->
+    <delete id="sdelete">
+        delete feom student_list where Student_list = #{Studet_number}
+    </delete>
+<!--    修改学生信息-->
+    <update id="supdate">
+        update student_list set Student_name = #{Student_name},Student_age = #{Student_age},Student_grade = #{Student_grade},
+        Student_gender = #{Student_gender},HomeAddress = #{HomeAddress},Course_Elective = #{Course_Elective},Class_name = #{Class_name},
+        Enrollment_time = #{Enrollment_time},Student_IdNumber = #{Student_IdNumber},Student_phone = #{Student_phone}
+        where Student_list = #{Studet_number}
+    </update>
 </mapper>

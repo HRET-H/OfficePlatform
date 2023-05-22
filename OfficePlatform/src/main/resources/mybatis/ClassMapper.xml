@@ -2,9 +2,33 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jk.Mapper.ClassMapper">
+<mapper namespace="com.jk.mapper.ClassMapper">
 
-    <select id="findAll" resultType="com.jk.Pojo.ClassTable">
+<!--    分页查询-->
+    <select id="findClassList" resultType="classTable" parameterType="string">
         select * from class_table
+        <where>
+            <if test="Student_grade != null and Student_grade != ''">
+                and Student_grade like concat('%',#{Student_grade},'%')
+            </if>
+            <if test="Class_name != null and Class_name != ''">
+                and Class_name like concat('%',#{Class_name},'%')
+            </if>
+        </where>
     </select>
+
+<!--    添加班级-->
+    <insert id="insert">
+        insert into class_table values(#{Class_id},#{Student_grade},#{Class_name},#{Class_size},#{Sourse_name})
+    </insert>
+<!--    删除班级信息-->
+    <delete id="delete">
+        delete from class_table where Class_id = #{Class_id}
+    </delete>
+<!--    修改班级信息-->
+    <update id="update">
+        update class_table set Student_grade = #{Student_grade},Class_name = #{Class_name},
+        Class_size = #{Class_size},Sourse_name = #{Sourse_name}
+        where Class_id = #{Class_id}
+    </update>
 </mapper>

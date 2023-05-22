@@ -2,9 +2,24 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jk.Mapper.SourseMapper">
-
-    <select id="findAll" resultType="com.jk.Pojo.SourseTable">
+<mapper namespace="com.jk.mapper.SourseMapper">
+<!--    查询所有课程信息-->
+    <select id="findAll" resultType="sourseTable">
         select * from sourse_table
     </select>
+<!--    添加课程信息-->
+    <insert id="insert">
+        insert into sourse_table values(#{Sourse_number},#{Sourse_name},#{Sourse_type},#{Teacher_name},#{Start_time},#{End_time})
+    </insert>
+<!--    删除课程信息-->
+    <delete id="delete">
+        delete from sourse_table where Sourse_number = #{number}
+    </delete>
+<!--    修改课程信息-->
+    <update id="update">
+        update sourse_table set Sourse_name = #{Sourse_name},Sourse_type = #{Sourse_type},Teacher_name = #{Teacher_type},
+        Start_time = #{Start_time},End_time = #{End_time} where Sourse_number = #{Sourse_number}
+    </update>
+
+
 </mapper>

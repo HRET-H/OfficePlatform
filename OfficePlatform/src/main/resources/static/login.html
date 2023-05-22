@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <script>
+        var options={
+		 canvasId:'mycanvas',
+		 width:200,
+		 height:50,
+		 txt:'' 
+	}
+	//生产验证码
+	function produceCode(options){
+		var code="";
+		var random=new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+			 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+		for(var i=0;i<4;i++){
+			var index=Math.floor(Math.random()*62);
+			code+=random[index];
+		}
+		options.txt=code;
+	}
+	//产生随机数字
+	function randomNum(min,max){
+		return Math.floor(Math.random()*(max-min)+min);
+	}
+	//产生随机颜色
+	function randomColor(min,max){
+		var r=randomNum(min,max);
+		var g=randomNum(min,max);
+		var b=randomNum(min,max);
+		return "rgb("+r+","+g+","+b+")";
+	}
+	//生产验证码背景
+	 function code(options){
+	 	produceCode(options);
+	 	 var canvas=document.getElementById(options.canvasId);
+	 	  canvas.width=options.width||200;//画布的宽
+     	  canvas.height=options.height||60;//画布的高
+	 	 var ctx=canvas.getContext("2d");//创建一个canvas对象
+	 	 ctx.textBaseline="middle";
+	 	 ctx.fillStyle=randomColor(60,255);
+	 	 ctx.fillRect(0,0,canvas.width,canvas.height);
+	 	for(var i=0;i<options.txt.length;i++){
+	 		var txt=options.txt.charAt(i);
+	 		ctx.font='50px SimHei';
+	 		ctx.fillStyle = randomColor(60, 180); /**随机生成字体颜色*/
+	 		ctx.shadowOffsetY = randomNum(-3, 3);
+	 		ctx.shadowBlur = randomNum(-3, 3);
+	 		ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+	 		 var x = options.width / (options.txt.length+1) * (i+1);
+	 		 var y = options.height /2;
+	 		var deg = randomNum(-30, 30);
+	 		/**设置旋转角度和坐标原点*/
+	 		ctx.translate(x, y);
+	 		ctx.rotate(deg * Math.PI / 180);
+	 		ctx.fillText(txt, 0, 0);
+	 		/**恢复旋转角度和坐标原点*/
+	 		ctx.rotate(-deg * Math.PI / 180);
+	 		ctx.translate(-x, -y);
+	 	}
+	 }
+	window.onload=function(){
+		code(options)
+	}
+ 
+    </script>
+</head>
+<body>
+<div class="login">
+    <h1>登&nbsp;&nbsp;录</h1>
+    <form method="post" action="">
+        <input class="input_box"  type="text" name="username" placeholder="学号/工号/用户名"/><br>
+        <input class="input_box1" type="password" name="password" placeholder="密码"/><br>
+        <div class="yzm">
+			<input class="input_box2" type="text" placeholder="验证码"/>
+			<canvas id="mycanvas" onclick="code(options)"></canvas>
+		</div>
+        <input type="radio" name="object" id="student">学生
+        <input type="radio" name="object" id="dmanager">老师
+        <input type="radio" name="object" id="manager">管理员<br><br>
+		<a href="../html/register.html">没有账号？点击这里注册</a><br>
+        <input type="submit" value="登录" class="button_box"/>
+    </form>
+</div>
+</body>
+</html>
+ 

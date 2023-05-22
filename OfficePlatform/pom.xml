@@ -37,6 +37,13 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- apache poi -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+
         <!--        tomcat-embed-jasper-->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -50,7 +57,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--        分页插件-->
+<!--                分页插件-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -78,6 +85,18 @@
             <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
+<!--        json-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>

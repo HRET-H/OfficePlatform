@@ -2,9 +2,22 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jk.Mapper.ExaminationMapper">
-
-    <select id="findAll" resultType="com.jk.Pojo.ExaminationForm">
+<mapper namespace="com.jk.mapper.ExaminationMapper">
+<!--    查询班级信息-->
+    <select id="findAll" resultType="examinationForm">
         select * from examination_from
     </select>
+<!--    添加班级信息-->
+    <insert id="insert">
+        insert into examination_from values(#{Examination_number},#{Examination_time},#{Sourse_name})
+    </insert>
+<!--    删除班级信息-->
+    <delete id="delete">
+        delete from examination_from where Examination_number = #{number}
+    </delete>
+<!--    修改班级信息-->
+    <update id="update">
+        update examination_from set Examination_time = #{Examination_time},Sourse_name = #{Sourse_name}
+        where Examination_number = #{Examination_number}
+    </update>
 </mapper>

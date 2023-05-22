@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/public.css" media="all">
+    <script src="/static/js/excel.js" charset="utf-8"></script>
+    <script src="/static/js/jquery.js"></script>
+</head>
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+    
+            <fieldset class="table-search-fieldset">
+                <legend>搜索信息</legend>
+                <div style="margin: 10px 10px 10px 10px">
+                    <form class="layui-form layui-form-pane" action="/class/findByClass" method="post">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">班级年级</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="Student_grade" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">班级名称</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="Class_name" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">  
+                                <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+            <div style="border: 1px solid rgb(238, 238, 238); margin-top:10px ;" >
+<!--                <div class="layui-btn-container" style="margin-top: 15px; margin-left: 15px; margin-bottom: -10px;background-color: rgb(251,251,251)">-->
+<!--                </div>-->
+
+                <table lay-filter="currentTableFilter" class="layui-table" lay-skin="line" id="LAY-EXPORT-TEST">
+                    <div class="layui-row">
+                        <div class="layui-col-xs11" style="margin-top: 10px">
+                            <div class="grid-demo grid-demo-bg1">
+                                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" style="margin-left:15px;margin-top: 5px" onclick="window.location.href ='/class/add'"> 添加 </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" style="margin-left:15px;margin-top: 5px"> 删除 </button>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs1">
+                        <div class="grid-demo" style="margin-top: 10px">
+                            <button type="button" onclick="exportTable()" class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" style="margin-left: -17px">导出</button>
+                        </div>
+                    </div>
+                    </div>
+                    <colgroup>
+                        <col width="70">
+                        <col width="150">
+                        <col width="150">
+                        <col width="150">
+                        <col width="200">
+                        <col width="200">
+                    </colgroup>
+                    <tr style="text-align: center;background-color: rgb(251,251,251)">
+                        <td><input type="checkbox" onclick="clicks()"></td>
+                        <td>id</td>
+                        <td>年级</td>
+                        <td>班级</td>
+                        <td>人数</td>
+                        <td>课程</td>
+                        <td>操作</td>
+                    </tr>
+                    <tr th:each="class:${pageInfo.list}" style="text-align: center">
+                        <td><input type="checkbox" class="itms" th:value="${class.Class_id}"></td>
+                        <td th:text="${class.Class_id}"></td>
+                        <td th:text="${class.Student_grade}"></td>
+                        <td th:text="${class.Class_name}"></td>
+                        <td th:text="${class.Class_size}"></td>
+                        <td th:text="${class.Sourse_name}"></td>
+
+                        <td>
+                            <button class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</button>
+                            <button class="layui-btn layui-btn-danger layui-btn-xs data-count-delete" lay-event="del" onclick="removerClass(${class.Class_id},${class.Class_name})">删除</button>
+                        </td>
+                    </tr>
+                </table>
+
+<!--                基于下面的分页代码创建一个样式好看的分页-->
+                <div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-0" align="center" style="margin-left: 10px">
+
+                    <a th:href="@{/class/findByPage(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}" class=" layui-laypage-next " data-page="0">上一页</a>
+
+                    <span th:if="${pageInfo.pageNum -3} >= 1">
+                            <span th:text="${pageInfo.pageNum -3}" style="padding-left: 0 ; padding-right: 0 ; border: 0"></span>
+                    </span>
+                    <span th:if="${pageInfo.pageNum -2} >= 1">
+                            <span th:text="${pageInfo.pageNum -2}" style="padding-left: 0 ; padding-right: 0 ; border: 0"></span>
+                    </span>
+                    <span th:if="${pageInfo.pageNum -1} >= 1">
+                            <span th:text="${pageInfo.pageNum -1}" style="padding-left: 0 ; padding-right: 0 ; border: 0"></span>
+                    </span>
+
+                    <span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em th:text="${pageInfo.pageNum}" ></em></span>
+
+                    <span th:if="${pageInfo.pageNum+1} <= ${pageInfo.pages}">
+                            <span th:text="${pageInfo.pageNum+1}" style="padding-left: 0 ; padding-right: 0 ; border: 0"></span>
+                    </span>
+                    <span th:if="${pageInfo.pageNum+2} <= ${pageInfo.pages}">
+                            <span th:text="${pageInfo.pageNum+2}" style="padding-left: 0 ; padding-right: 0 ; border: 0"></span>
+                    </span>
+                    <span th:if="${pageInfo.pageNum+3} <= ${pageInfo.pages}">
+                            <span th:text="${pageInfo.pageNum+3}" style="padding-left: 0 ; padding-right: 0 ; border: 0"></span>
+                    </span>
+
+                    <a th:href="@{/class/findByPage(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}" class="layui-laypage-next" data-page="2">下一页</a>
+                    <span class="layui-laypage-count">共 <span th:text="${pageInfo.total}"></span> 条</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <form id="deleteEmpForm"  method="post">
+        <input type="hidden" name="_method"  value="delete"/>
+    </form>
+</body>
+<script>
+    function removerClass(Class_id,Class_name) {
+        if (confirm("确定要删除"+Class_name+"班级吗？")){
+            window.location.href = "/class/delete?Class_id="+Class_id;
+        }
+    }
+
+    function exportTable() {
+        // 获取头部和body
+        var data = LAY_EXCEL.tableToJson(document.getElementById('LAY-EXPORT-TEST')) // 或者 $('#LAY-EXPORT-TEST')
+        // console.log(data)
+        var exportData = []
+        exportData.push.apply(exportData, data.head)
+        exportData.push.apply(exportData, data.body)
+        // console.log(exportData)
+
+        LAY_EXCEL.exportExcel(exportData, '表格导出.xlsx', 'xlsx')
+    }
+    var flag = true;
+    function clicks() {
+        if(flag){
+            $(".itms").each(function () {
+                this.checked = flag;
+            })
+            flag = false;
+        }else {
+            $(".itms").each(function () {
+                this.checked = flag;
+            })
+            flag = true;
+        }
+    }
+
+    $(".deleteBtn").click(function(){
+        alert("abc");
+        //删除当前员工的信息
+        $("#deleteEmpForm").attr("action",$(this).attr("del_uri")).submit();
+        alert("abc");
+        //return false;
+    });
+</script>
+</html>

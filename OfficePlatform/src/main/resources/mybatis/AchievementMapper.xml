@@ -2,9 +2,23 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jk.Mapper.AchievementMapper">
-
-    <select id="findAll" resultType="com.jk.Pojo.AchievementTable">
-            select * from achievement_table
+<mapper namespace="com.jk.mapper.AchievementMapper">
+<!--    查询所有成绩-->
+    <select id="findAll" resultType="achievementTable">
+        select * from achievement_table
     </select>
+<!--    添加成绩-->
+    <insert id="insert">
+        insert into achievement_table values(#{Examination_number},#{Examination_time},#{Student_number},#{Student_name},#{Student_achievement},#{Student_score})
+    </insert>
+<!--    删除成绩-->
+    <delete id="delete">
+        delete from achievement_table where Examination_number = #{number}
+    </delete>
+<!--    修改成绩-->
+    <update id="update">
+        update achievement_table set Examination_time = #{Examination_time},Student_number = #{Student_number},
+        Student_name = #{Student_name},Student_achievement = #{Student_achievement},Student_score = #{Student_score}
+        where Examination_number = #{Examination_number}
+    </update>
 </mapper>
